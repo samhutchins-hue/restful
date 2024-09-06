@@ -50,7 +50,12 @@ def generate_report():
 # Example usage
 if __name__ == '__main__':
     # Add a new item
-    add_item('Sample Item')
+    val = ""
+    while True:
+        val = input("Enter name to add to the database: ")
+        if val == "q":
+            break
+        add_item(val)
 
     # Retrieve and print all items
     get_items()
