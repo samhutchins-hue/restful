@@ -14,7 +14,16 @@ class Item(db.Model):
 @app.route('/items', methods=['GET'])
 def get_items():
     items = Item.query.all()
-    return jsonify([{'id': item.id, 'name': item.name} for item in items])
+    return jsonify([{'id': item.id, 'name': item.name} for item in items]), 200
+
+
+@app.route('/items/<int:item_id>', methods=['GET'])
+def get_item(item_id):
+    item = db.session.get(Item, item_id)
+    if item:
+        return jsonify({'id': item.id, 'name': item.name}), 200
+    else:
+        return jsonify({'message': 'Item not found'}), 404
 
 
 @app.route('/items', methods=['POST'])
