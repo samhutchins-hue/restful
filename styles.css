@@ -1,0 +1,106 @@
+/* Root variables for easy theme management */
+:root {
+  --font-family: 'Arial', sans-serif;
+  --font-size: 16px;
+  --padding: 10px;
+  --border-color: #ddd;
+  --background-color: #f9f9f9;
+  --text-color: #333;
+  --button-bg-color: #007bff;
+  --button-text-color: #fff;
+  --button-hover-bg-color: #0056b3;
+  --border-radius: 4px;
+}
+
+/* Basic styling for body */
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+/* Centered heading */
+h1 {
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* Container for layout */
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px;
+  gap: 20px; /* Gap between flex items */
+}
+
+/* Styling for the items list */
+.items-list {
+  flex: 1;
+  padding-right: 20px;
+  border-right: 1px solid var(--border-color);
+  background-color: #fff; /* Slightly different background for separation */
+}
+
+/* Styling for control elements */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--padding); /* Space between controls */
+  background-color: #fff;
+  padding: var(--padding);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Input field styling */
+.controls input[type="text"] {
+  padding: var(--padding);
+  font-size: var(--font-size);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.controls input[type="text"]:focus {
+  border-color: var(--button-bg-color); /* Change border color on focus */
+}
+
+/* Button styling */
+.controls button {
+  padding: var(--padding);
+  font-size: var(--font-size);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.controls button:hover {
+  background-color: var(--button-hover-bg-color);
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .items-list {
+    border-right: none;
+    padding-right: 0;
+    border-bottom: 1px solid var(--border-color); /* Add border below list */
+    margin-bottom: 20px;
+  }
+
+  .controls {
+    margin-top: 0;
+  }
+}

@@ -2,21 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, inital-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Item Manager</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Link to the CSS file -->
 </head>
 <body>
   <h1>Item Manager</h1>
+  <div class="container">
     <div id="items-list">
-      <!-- List of items will be populated here-->
+      <!-- List of items will be populated here -->
     </div>
-    <input type="text" id="item-name" placeholder="Enter item name" />
-    <button onclick="addItem()">Add Item</button>
+    <div class="controls">
+      <input type="text" id="item-name" placeholder="Enter item name" />
+      <button onclick="addItem()">Add Item</button>
 
-    <input type="text" id="id-number" placeholder="Enter an item id number" />
-    <button onclick="deleteItem()">Delete Item</button>
+      <input type="text" id="id-number" placeholder="Enter an item id number" />
+      <button onclick="deleteItem()">Delete Item</button>
+    </div>
+  </div>
 
-    <script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
 

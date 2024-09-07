@@ -9,30 +9,50 @@ interface ServerResponse {
   message: string;
 }
 
-// Fetch and display the list of items
-function fetchItems(): void {
-  fetch('http://localhost:5000/items')
-    .then(response => response.json())
-    .then((data: Item[]) => {
-      const itemsList = document.getElementById('items-list');
-      if (itemsList) {
-        itemsList.innerHTML = ''; // Clear existing items
-        data.forEach(item => {
-          const itemElement = document.createElement('div');
-          itemElement.textContent = `ID: ${item.id}, Name: ${item.name}`;
-          itemsList.appendChild(itemElement);
-        });
+// Async fetch and display the list of items
+async function fetchItems(): Promise<void> {
+  try {
+    // Perform the GET request to fetch items
+    const response = await fetch('http://localhost:5000/items', {
+      method: 'GET', // Explicitly specify the GET method
+      headers: {
+        'Content-Type': 'application/json'
       }
-    })
-    .catch(error => console.error('Error fetching items:', error));
+    });
+
+    if (!response.ok) {
+      // Handle HTTP errors (e.g., 404, 500)
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    // Parse the JSON response
+    const data: Item[] = await response.json();
+
+    // Get the items list container
+    const itemsList = document.getElementById('items-list');
+    if (itemsList) {
+      itemsList.innerHTML = ''; // Clear existing items
+      data.forEach(item => {
+        // Create and append item elements to the list
+        const itemElement = document.createElement('div');
+        itemElement.textContent = `ID: ${item.id}, Name: ${item.name}`;
+        itemsList.appendChild(itemElement);
+      });
+    }
+  } catch (error) {
+    // Handle any errors in fetching or processing
+    console.error('Error fetching items:', error);
+    displayError('Failed to fetch items. Please try again later.');
+  }
 }
 
 // Async add a new item
 async function addItem(): Promise<void> {
   const itemNameInput = document.getElementById('item-name') as HTMLInputElement;
   const itemName = itemNameInput?.value.trim();
+
   if (!itemName) {
-    alert('Please enter an item name.');
+    displayError('Please enter an item name.');
     return;
   }
 
@@ -46,17 +66,19 @@ async function addItem(): Promise<void> {
     });
 
     if (!response.ok) {
-      const errorData: ServerResponse = await response.json();
-      alert(`Error: ${errorData.message}`);
-      throw new Error(errorData.message);
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
     const data: Item = await response.json();
+    alert(`Item successfully added: ${data.name}`);
     console.log('Item added:', data);
-    fetchItems(); // Refresh the list
+    await fetchItems(); // Refresh the list
+
+    itemNameInput.value = '';
+    itemNameInput.focus();
   } catch (error) {
     console.error('Error adding item:', error);
-    alert('Failed to add item');
+    displayError('Failed to add item. Please try again later.');
   }
 }
 
@@ -66,12 +88,12 @@ async function deleteItem(): Promise<void> {
   const itemId = parseInt(inputElement.value, 10);
 
   if (isNaN(itemId)) {
-    alert('Please enter a valid number.');
+    displayError('Please enter a valid number.');
     return;
   }
 
   try {
-    const response = await fetch('http://localhost:5000/items/${itemId}', {
+    const response = await fetch(`http://localhost:5000/items/${itemId}`, {
       method: 'DELETE', // HTTP method for deletion
       headers: {
         'Content-type': 'application/json', // good practice to specify
@@ -79,17 +101,28 @@ async function deleteItem(): Promise<void> {
     });
 
     if (!response.ok) {
-      // Check if the response status is not in the 2xx range
-      const errorData: ServerResponse = await response.json();
-      alert(`Error: ${errorData.message}`);
-      throw new Error(errorData.message);
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
     alert('Item successfully deleted');
-    fetchItems();
+    await fetchItems();
+
+    inputElement.value = '';
+    inputElement.focus();
   } catch (error) {
-    console.error('Error:', error);
-    alert('Failed to delete item');
+    console.error('Error deleting item:', error);
+    displayError('Failed to delete item. Please try again later.');
+  }
+}
+
+
+function displayError(message: string): void {
+  const errorElement = document.getElementById('error-message');
+  if (errorElement) {
+    errorElement.textContent = message;
+    errorElement.style.display = 'block';
+  } else {
+    alert(message); // Fallback if error element is not found
   }
 }
 
