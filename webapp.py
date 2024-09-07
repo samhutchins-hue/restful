@@ -38,6 +38,17 @@ def add_item():
     return jsonify({'id': new_item.id, 'name': new_item.name}), 201
 
 
+@app.route('/items/<int:item_id>', methods=['DELETE'])
+def delete_item(item_id):
+    item = db.session.get(Item, item_id)
+    if item:
+        db.session.delete(item)
+        db.session.commit()
+        return jsonify({'message': 'Item deleted'}), 200
+    else:
+        return jsonify({'message': 'Item not found'}), 404
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
