@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -5,7 +6,8 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///example.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+#postgresql://restful_postgresql_user:brYymG6UZq3zUPSHyJaoK68q6tM0Z7k1@dpg-crf6023qf0us738ghqng-a.oregon-postgres.render.com/restful_postgresql
 db = SQLAlchemy(app)
 
 
@@ -57,6 +59,4 @@ def delete_item(item_id):
 
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
