@@ -13,7 +13,7 @@ interface ServerResponse {
 async function fetchItems(): Promise<void> {
   try {
     // Perform the GET request to fetch items
-    const response = await fetch('http://localhost:5000/items', {
+    const response = await fetch('https://restful-z8tr.onrender.com/items', {
       method: 'GET', // Explicitly specify the GET method
       headers: {
         'Content-Type': 'application/json'
@@ -57,7 +57,7 @@ async function addItem(): Promise<void> {
   }
 
   try {
-    const response = await fetch('http://localhost:5000/items', {
+    const response = await fetch('https://restful-z8tr.onrender.com/items', {
       method: 'POST', // Correctly set the method to POST
       headers: {
         'Content-type': 'application/json',
@@ -93,7 +93,7 @@ async function deleteItem(): Promise<void> {
   }
 
   try {
-    const response = await fetch(`http://localhost:5000/items/${itemId}`, {
+    const response = await fetch(`https://restful-z8tr.onrender.com/items/${itemId}`, {
       method: 'DELETE', // HTTP method for deletion
       headers: {
         'Content-type': 'application/json', // good practice to specify
