@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask
+from flask_cors import CORS
 
 from .extensions import db
 from .routes import main
@@ -8,6 +9,7 @@ from .routes import main
 
 def create_app():
     app = Flask(__name__)
+    CORS(app)
 
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
     #postgresql://restful_postgresql_user:brYymG6UZq3zUPSHyJaoK68q6tM0Z7k1@dpg-crf6023qf0us738ghqng-a.oregon-postgres.render.com/restful_postgresql
