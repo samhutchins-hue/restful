@@ -20,6 +20,13 @@ def get_items():
     return jsonify([{'id': item.id, 'name': item.name} for item in items]), 200
 
 
+@app.route('/test', methods=['GET'])
+def get_test():
+ return jsonify({
+            'message': 'This is a test endpoint',
+            'status': 'success'}), 200
+
+
 @app.route('/items/<int:item_id>', methods=['GET'])
 def get_item(item_id):
     item = db.session.get(Item, item_id)
